@@ -1,11 +1,14 @@
+/* eslint-disable */
 import React, { Component } from "react";
 
-export default class Submit extends Component {
-  state = {
-    title: ""
-  };
+import { connect } from "react-redux";
+import addAction from "../../actions/addActions";
 
-  onChange = e => {
+class Submit extends Component {
+  state = {
+    title: ''
+  }
+  onChange = (e) => {
     this.setState({ title: e.target.value });
   };
 
@@ -16,22 +19,24 @@ export default class Submit extends Component {
       title: this.state.title,
       id: e.timeStamp
     };
-    this.props.onSubmit(todo);
+    console.log(todo)
+    this.props.addAction(todo);
     this.setState({ title: "" });
   };
 
   render() {
+    console.log(this.props)
     return (
       <div className="submit--container">
-        <form className="forms" onSubmit={this.onSubmit}>
+        <form className="forms" onSubmit={this.onSubmit.bind(this)}>
           <div className="form-group">
             <input
               type="text"
               name="addToDo"
               required
               placeholder="What needs to be done ?"
-              className="input__text-field"
               value={this.state.title}
+              className="input__text-field"
               onChange={this.onChange}
             />
           </div>
@@ -40,3 +45,11 @@ export default class Submit extends Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {};
+}
+
+export default connect(mapStateToProps, { addAction })(Submit)
+
+

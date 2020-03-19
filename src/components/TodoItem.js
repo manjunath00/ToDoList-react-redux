@@ -1,34 +1,32 @@
-import React, { Component } from "react";
+/* eslint-disable */
+import React, { Component } from 'react';
+import { connect } from "react-redux";
 
-export default class TodoItem extends Component {
+import deleteAction from "../actions/deleteActions";
+import toggleAction from "../actions/toggleActions";
+
+class TodoItem extends Component {
   render() {
-    const { title, completed, id } = this.props.todo;
-    const status = completed ? "checked" : "";
-    const checked = completed ? true : false;
-
+    console.log(this.props)
+    const { title, id, completed } = this.props.todo
+    const status = completed ? 'checked' : '';
+    // console.log(title, id)
     return (
-      <div
-        className={`todo ${status}`}
-        draggable={true}
-        todoindex={this.props.position}
-        onDragStart={this.props.dragStart}
-      >
+      <div className={`todo ${status}`} key={id} >
         <div className="todo-status">
-          <input
-            type="checkbox"
-            className="checkbox"
-            checked={checked}
-            onChange={this.props.toggleStatus.bind(this, id)}
-          />
+          <input type="checkbox" className="checkbox" onClick={() => this.props.toggleAction(id)} />
         </div>
         <div className="todo-text">{title}</div>
-        <div
-          className="todo-action"
-          onClick={this.props.delItem.bind(this, id)}
-        >
-          <button><span>&times;</span></button>
+        <div className="todo-action">
+          <button onClick={() => this.props.deleteAction(id)}><span>&times;</span></button>
         </div>
       </div>
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {};
+}
+
+export default connect(mapStateToProps, { deleteAction, toggleAction })(TodoItem)
